@@ -8,7 +8,8 @@ module.exports = {
             colors: {
                 opay: {
                     main: '#00B875', // Brand Green
-                    bg: '#FFFFFF', // Light background
+                    blue: '#1A1A6E', // Brand Blue
+                    white: '#FFFFFF', // Light background
                     app: '#F5F5F5', // Light grey background
                     headings: '#1A1A1A', // Dark text
                     subtext: '#666666', // medium grey text
