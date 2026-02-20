@@ -25,7 +25,7 @@ const SignUp = () => {
     const [phone, setPhone] = useState('');       // User's phone number
     const [otp, setOtp] = useState('');            // 6-digit OTP code
     const [otpError, setOtpError] = useState(false); // Controls "Invalid" error visibility
-    const [acceptedTerms, setAcceptedTerms] = useState(true); // Terms checkbox (pre-checked)
+    const [acceptedTerms, setAcceptedTerms] = useState(false); // Terms checkbox (pre-checked)
 
     // Handles requesting a new OTP
     const handleGetOtp = () => {

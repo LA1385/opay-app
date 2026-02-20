@@ -86,7 +86,10 @@ const SignIn = () => {
                         <span className="text-sm text-opay-subtext">Remember Password</span>
                     </label>
                     {/* Forgot Password link - styled in brand green */}
-                    <button className="text-sm font-semibold text-opay-main">
+                    <button
+                        onClick={() => navigate('/forgot-password')}
+                        className="text-sm font-semibold text-opay-main"
+                    >
                         Forgot Password?
                     </button>
                 </div>
@@ -106,13 +109,16 @@ const SignIn = () => {
                 </div>
 
                 {/* Fingerprint Login Section */}
-                <div className="flex flex-col items-center gap-3">
+                <button
+                    onClick={() => navigate('/biometric')}
+                    className="flex flex-col items-center gap-3 active:opacity-70 transition-opacity"
+                >
                     <span className="text-sm text-opay-subtext">Login with fingerprint</span>
                     {/* Fingerprint icon inside a circular green border */}
                     <div className="w-14 h-14 rounded-full border-2 border-opay-main flex items-center justify-center">
                         <Fingerprint size={28} className="text-opay-main" />
                     </div>
-                </div>
+                </button>
             </div>
         </div>
     );
