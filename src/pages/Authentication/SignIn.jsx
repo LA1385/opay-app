@@ -4,6 +4,8 @@ import { ChevronLeft, Fingerprint } from 'lucide-react'; // Icons from lucide-re
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import opayLogo from '../../assets/logo.png';
+import { isValidPhone, isValidSixDigitCode } from '../../utils/regex';
+import { loginUser } from '../../utils/webAuth';
 
 /**
  * SignIn - The Login page of the OPay app
@@ -25,10 +27,34 @@ const SignIn = () => {
     const [phone, setPhone] = useState('');
     const [password, setPassword] = useState('');
     const [rememberPassword, setRememberPassword] = useState(false);
+    const [errorMsg, setErrorMsg] = useState(''); // To display validation/auth errors
+    const [successMsg, setSuccessMsg] = useState(''); // To display brief success state
 
     // Handles the login button press
     const handleLogin = () => {
-        // TODO: Add authentication logic here
+        setErrorMsg(''); // Clear previous errors
+
+        if (!isValidPhone(phone)) {
+            setErrorMsg('Please enter a valid phone number.');
+            return;
+        }
+
+        if (!isValidSixDigitCode(password)) {
+            setErrorMsg('Password must be exactly 6 digits.');
+            return;
+        }
+
+        // Simulate local authentication
+        const result = loginUser(phone, password);
+        if (result.success) {
+            // Show successful login msg, then redirect after small delay
+            setSuccessMsg(result.message);
+            setTimeout(() => {
+                navigate('/coming-soon');
+            }, 1500);
+        } else {
+            setErrorMsg(result.message);
+        }
     };
 
     return (
@@ -69,10 +95,28 @@ const SignIn = () => {
                         type="password"
                         placeholder="Enter 6-digits password"
                         value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        onChange={(e) => {
+                            setPassword(e.target.value);
+                            if (errorMsg) setErrorMsg(''); // Clear error on typing
+                            if (successMsg) setSuccessMsg('');
+                        }}
                         maxLength={6}
                     />
                 </div>
+
+                {/* Validation/Auth Error Display */}
+                {errorMsg && (
+                    <div className="w-full mb-2">
+                        <span className="text-sm font-medium text-red-500">{errorMsg}</span>
+                    </div>
+                )}
+
+                {/* Success Message Display */}
+                {successMsg && (
+                    <div className="w-full mb-2">
+                        <span className="text-sm font-medium text-green-500">{successMsg}</span>
+                    </div>
+                )}
 
                 {/* Remember Password & Forgot Password row */}
                 <div className="w-full flex items-center justify-between mb-10">
