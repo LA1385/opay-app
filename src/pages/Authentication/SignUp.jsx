@@ -5,6 +5,9 @@ import Input from '../../components/Input';
 import Button from '../../components/Button';
 import opayLogo from '../../assets/logo.png';
 
+import { registerUser } from '../../utils/webAuth';
+import { isValidPhone } from '../../utils/regex';
+
 /**
  * SignUp - The "Create a new account" page of the OPay app
  * 
@@ -25,22 +28,49 @@ const SignUp = () => {
     const [phone, setPhone] = useState('');       // User's phone number
     const [otp, setOtp] = useState('');            // 6-digit OTP code
     const [otpError, setOtpError] = useState(false); // Controls "Invalid" error visibility
+    const [registerError, setRegisterError] = useState(''); // Registration error message
     const [acceptedTerms, setAcceptedTerms] = useState(false); // Terms checkbox (pre-checked)
 
     // Handles requesting a new OTP
     const handleGetOtp = () => {
         // TODO: Add OTP request API call here
+        alert("Your OTP is 567890 and your password as well");
     };
 
     // Handles the confirm button press
     const handleConfirm = () => {
+        setRegisterError('');
+
+        if (!isValidPhone(phone)) {
+            setRegisterError('Please enter a valid phone number.');
+            return;
+        }
+
+        if (!acceptedTerms) {
+            setRegisterError('You must accept the terms and conditions');
+            return;
+        }
+
         // Validate that OTP is exactly 6 digits
         if (otp.length !== 6) {
             setOtpError(true);
             return;
         }
         setOtpError(false);
-        // TODO: Add signup confirmation logic here
+
+        // Normally, OTP is verified via API, and then a password is created.
+        // For this mock layout, we'll register the user using the OTP as their password
+        // so they can login with it later.
+        const result = registerUser(phone, otp);
+
+        if (result.success) {
+            // Navigate to signin page on successful registration
+            navigate('/signin', {
+                state: { successMsg: 'Account created successfully! Please login with your OTP as password.' }
+            });
+        } else {
+            setRegisterError(result.message);
+        }
     };
 
     return (
@@ -82,6 +112,7 @@ const SignUp = () => {
                         placeholder="Input phone number"
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
+                        maxlength={11}
                     />
                 </div>
 
@@ -111,7 +142,14 @@ const SignUp = () => {
                 {/* Validation Error - only shown when OTP is invalid */}
                 {otpError && (
                     <div className="w-full mb-2">
-                        <span className="text-sm font-medium text-red-500">Invalid</span>
+                        <span className="text-sm font-medium text-red-500">Invalid OTP</span>
+                    </div>
+                )}
+
+                {/* Registration Error Display */}
+                {registerError && (
+                    <div className="w-full mb-2">
+                        <span className="text-sm font-medium text-red-500">{registerError}</span>
                     </div>
                 )}
 

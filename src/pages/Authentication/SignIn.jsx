@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { ChevronLeft, Fingerprint } from 'lucide-react'; // Icons from lucide-react
 import Input from '../../components/Input';
 import Button from '../../components/Button';
@@ -22,16 +22,19 @@ import { loginUser } from '../../utils/webAuth';
  */
 const SignIn = () => {
     const navigate = useNavigate();
+    const location = useLocation();
 
     // Form state: phone number, password, and remember preference
     const [phone, setPhone] = useState('');
     const [password, setPassword] = useState('');
     const [rememberPassword, setRememberPassword] = useState(false);
     const [errorMsg, setErrorMsg] = useState(''); // To display validation/auth errors
-    const [successMsg, setSuccessMsg] = useState(''); // To display brief success state
+
+    // Initialize successMsg from navigation state if redirected from Signup
+    const [successMsg, setSuccessMsg] = useState(location.state?.successMsg || '');
 
     // Handles the login button press
-    const handleLogin = () => {
+    const handleLogin = (phone, password) => {
         setErrorMsg(''); // Clear previous errors
 
         if (!isValidPhone(phone)) {
@@ -85,7 +88,11 @@ const SignIn = () => {
                         variant="phone"
                         placeholder="Enter phone number"
                         value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
+                        onChange={(e) => {
+                            setPhone(e.target.value);
+                            console.log(e.target.value);
+                        }}
+                        maxLength={11}
                     />
                 </div>
 
@@ -97,6 +104,7 @@ const SignIn = () => {
                         value={password}
                         onChange={(e) => {
                             setPassword(e.target.value);
+                            console.log(e.target.value);
                             if (errorMsg) setErrorMsg(''); // Clear error on typing
                             if (successMsg) setSuccessMsg('');
                         }}
@@ -140,7 +148,9 @@ const SignIn = () => {
 
                 {/* Primary Login Button - filled green */}
                 <div className="w-full mb-4">
-                    <Button text="Login" onClick={handleLogin} variant="primary" />
+                    <Button text="Login" onClick={() => {
+                        handleLogin(phone, password);
+                    }} variant="primary" />
                 </div>
 
                 {/* Create Account Button - outlined green, navigates to SignUp page */}

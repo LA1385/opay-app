@@ -55,7 +55,7 @@ const BiometricSetup = () => {
             {/* Bottom Links */}
             <div className="w-full flex justify-center items-center gap-4 py-8 text-sm">
                 <button
-                    onClick={() => navigate('/signin')}
+                    onClick={() => navigate('/signup')}
                     className="text-opay-main font-semibold"
                 >
                     Switch Account

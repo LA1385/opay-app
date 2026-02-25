@@ -59,10 +59,18 @@ export const registerUser = (phone, password) => {
 export const loginUser = (phone, password) => {
     const users = getUsers();
 
-    // For testing purposes, if no users exist, we can auto-create one or just allow a mock bypass
-    if (users.length === 0 && phone === '08012345678' && password === '123456') {
-        registerUser(phone, password);
-        return { success: true, message: 'Mock user logged in successfully' };
+    // For testing purposes, auto-create a mock bypass user, regardless of whether other users exist
+    if (phone === '08012345678' && password === '123456') {
+        const testUser = {
+            id: 'test-user-id',
+            phone: '08012345678',
+            password: '123456',
+            balance: 50000,
+            name: 'Test User'
+        };
+        // Save current session
+        localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(testUser));
+        return { success: true, message: 'Mock user logged in successfully', user: testUser };
     }
 
     const user = users.find(u => u.phone === phone);

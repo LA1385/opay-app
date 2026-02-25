@@ -44,7 +44,7 @@ const Input = ({ type = 'text', placeholder, value, onChange, maxLength, variant
                     placeholder={placeholder || 'Enter phone number'}
                     value={value}
                     onChange={onChange}
-                    maxLength={maxLength || 10}
+                    maxLength={maxLength || 11}
                     className="flex-1 bg-transparent outline-none text-sm text-opay-headings placeholder-opay-inactive"
                 />
             </div>
