@@ -24,7 +24,7 @@ import { isValidPhone } from '../../utils/regex';
 const SignUp = () => {
     const navigate = useNavigate();
 
-    // Form state
+    // Form state       
     const [phone, setPhone] = useState('');       // User's phone number
     const [otp, setOtp] = useState('');            // 6-digit OTP code
     const [otpError, setOtpError] = useState(false); // Controls "Invalid" error visibility

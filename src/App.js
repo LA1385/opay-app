@@ -8,6 +8,7 @@ import SignUp from './pages/Authentication/SignUp';
 import BiometricSetup from './pages/Authentication/BiometricSetup';
 import ForgotPassword from './pages/Authentication/ForgotPassword';
 import ComingSoon from './pages/ComingSoon';
+import Dashboard from './pages/Dashboard/Dashboard';
 
 /**
  * App - Root component that sets up client-side routing
@@ -28,6 +29,7 @@ const App = () => {
         <Route path="/biometric" element={<BiometricSetup />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/coming-soon" element={<ComingSoon />} />
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </Router>
   )

@@ -53,7 +53,7 @@ const SignIn = () => {
             // Show successful login msg, then redirect after small delay
             setSuccessMsg(result.message);
             setTimeout(() => {
-                navigate('/coming-soon');
+                navigate('/dashboard');
             }, 1500);
         } else {
             setErrorMsg(result.message);

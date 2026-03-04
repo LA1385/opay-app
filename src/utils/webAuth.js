@@ -21,9 +21,10 @@ const getUsers = () => {
  * 
  * @param {string} phone - User's phone number
  * @param {string} password - 6-digit password
+ * @param {string} name - User's full name
  * @returns {Object} Success or error message
  */
-export const registerUser = (phone, password) => {
+export const registerUser = (phone, password, name = 'User') => {
     const users = getUsers();
     const existingUser = users.find(u => u.phone === phone);
 
@@ -36,7 +37,7 @@ export const registerUser = (phone, password) => {
         phone,
         password, // In a real app, this would be hashed
         balance: 1200, // Welcome bonus!
-        name: 'New User'
+        name: name.trim() || 'User'
     };
 
     users.push(newUser);
