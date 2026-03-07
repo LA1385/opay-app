@@ -3,12 +3,35 @@ import { useNavigate } from 'react-router-dom';
 import { Rocket } from 'lucide-react';
 import Button from '../components/Button';
 import opayLogo from '../assets/logo.png';
+import { getCurrentUser } from '../utils/webAuth.js';
 
 /**
- * ComingSoon - A premium placeholder page for unbuilt features
+ * ComingSoon - Placeholder page shown when a feature is not yet available.
+ *
+ * Shown when a user taps a feature that hasn't been built yet.
+ * The page displays a "Coming Soon" message and a smart back button:
+ * - If the user is logged in → goes back to the Dashboard
+ * - If not logged in → goes back to Sign In
+ *
+ * Key concepts used:
+ * - getCurrentUser: checks localStorage for an active session
+ * - useNavigate: lets us send the user to a different page in code
  */
 const ComingSoon = () => {
     const navigate = useNavigate();
+
+    const user = getCurrentUser();
+
+    // Decide where to send the user based on their login status
+    const handleNavigation = () => {
+        if (user) {
+            navigate('/dashboard')
+        }
+        else {
+            navigate('/signin')
+        };
+    };
+
 
     return (
         <div className="bg-opay-white min-h-screen flex flex-col items-center justify-center px-8">
@@ -35,8 +58,8 @@ const ComingSoon = () => {
                 {/* Return Button */}
                 <div className="w-full max-w-xs">
                     <Button
-                        text="Back to Login"
-                        onClick={() => navigate('/signin')}
+                        text={user ? 'Back to dashboard' : 'Back to login'}
+                        onClick={handleNavigation}
                         variant="primary"
                     />
                 </div>

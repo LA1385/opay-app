@@ -9,32 +9,32 @@ import { registerUser } from '../../utils/webAuth';
 import { isValidPhone } from '../../utils/regex';
 
 /**
- * SignUp - The "Create a new account" page of the OPay app
- * 
- * Layout (top to bottom):
- * - Header bar with back arrow and "Create a new account" title
- * - OPay logo
- * - Promotional banner (₦1,200 welcome bonus)
- * - Phone number input (Nigerian flag + +234 prefix)
- * - OTP input with "Get OTP" button on the right
- * - Validation error text (shows "Invalid" when OTP is wrong)
- * - Terms & Conditions checkbox
- * - "Confirm" primary button
+ * SignUp - The "Create a new account" (registration) page.
+ *
+ * New users enter their phone number, request an OTP, and confirm registration.
+ * The OTP is used as their initial password (mock flow — no real SMS sent).
+ * On success, redirects to Sign In with a confirmation message.
+ *
+ * Key concepts used:
+ * - useState: tracks phone, OTP, terms checkbox, and error messages
+ * - registerUser: saves the new user to localStorage (mock backend)
+ * - isValidPhone: ensures the phone number format is correct before submitting
  */
 const SignUp = () => {
     const navigate = useNavigate();
 
     // Form state       
-    const [phone, setPhone] = useState('');       // User's phone number
-    const [otp, setOtp] = useState('');            // 6-digit OTP code
-    const [otpError, setOtpError] = useState(false); // Controls "Invalid" error visibility
-    const [registerError, setRegisterError] = useState(''); // Registration error message
-    const [acceptedTerms, setAcceptedTerms] = useState(false); // Terms checkbox (pre-checked)
+    const [phone, setPhone] = useState('');
+    const [otp, setOtp] = useState('');       
+    const [otpError, setOtpError] = useState(false);
+    const [acceptedTerms, setAcceptedTerms] = useState(false);
+    const [registerError, setRegisterError] = useState(''); 
+
+    const otpNumber = Math.floor((Math.random() * 900000) + 100000);
 
     // Handles requesting a new OTP
     const handleGetOtp = () => {
-        // TODO: Add OTP request API call here
-        alert("Your OTP is 567890 and your password as well");
+        alert(`Your OTP Number is ${otpNumber}. Ensure to memorize it as itis your login password`);
     };
 
     // Handles the confirm button press
@@ -52,15 +52,15 @@ const SignUp = () => {
         }
 
         // Validate that OTP is exactly 6 digits
-        if (otp.length !== 6) {
+        if (otp.length !== 6 && otp !== otpNumber) {
             setOtpError(true);
             return;
         }
         setOtpError(false);
 
-        // Normally, OTP is verified via API, and then a password is created.
-        // For this mock layout, we'll register the user using the OTP as their password
-        // so they can login with it later.
+    //    OTP is used as the password for the new user
+    //    This is a mock flow, so we don't need to send a real OTP
+
         const result = registerUser(phone, otp);
 
         if (result.success) {
@@ -119,7 +119,7 @@ const SignUp = () => {
                 {/* OTP Input - with "Get OTP" button on the right side */}
                 <div className="w-full mb-1">
                     <Input
-                        type="text"
+                        type="password"
                         placeholder="Enter 6 digits"
                         value={otp}
                         onChange={(e) => {
@@ -163,12 +163,12 @@ const SignUp = () => {
                     />
                     <span className="text-sm text-opay-headings">
                         Click "Confirm" to accept{' '}
-                        {/* Terms link - styled in brand green */}
+                        {/* Terms link */}
                         <button className="text-opay-main font-semibold">Terms and Conditions</button>.
                     </span>
                 </div>
 
-                {/* Confirm Button - filled green, validates OTP before proceeding */}
+                {/* Confirm Button */}
                 <div className="w-full">
                     <Button text="Confirm" onClick={handleConfirm} variant="primary" />
                 </div>

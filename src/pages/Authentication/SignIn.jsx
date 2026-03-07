@@ -1,48 +1,46 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { ChevronLeft, Fingerprint } from 'lucide-react'; // Icons from lucide-react
+import { ChevronLeft, Fingerprint } from 'lucide-react'; 
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import opayLogo from '../../assets/logo.png';
-import { isValidPhone, isValidSixDigitCode } from '../../utils/regex';
+import { isValidPhone } from '../../utils/regex';
 import { loginUser } from '../../utils/webAuth';
 
 /**
- * SignIn - The Login page of the OPay app
- * 
- * Layout (top to bottom):
- * - Header bar with back arrow and "Login" title
- * - OPay logo (icon + "Pay" text)
- * - Phone number input (Nigerian flag + +234 prefix)
- * - 6-digit password input
- * - Remember Password checkbox + Forgot Password link
- * - "Login" primary button
- * - "Create a new account" outline button (navigates to /signup)
- * - Fingerprint login option at the bottom
+ * SignIn - The Login page of the OPay app.
+ *
+ * Lets a registered user enter their phone number and 6-digit password to log in.
+ * On success, redirects to the Dashboard. Also shows links to Sign Up and
+ * biometric (fingerprint) login.
+ *
+ * Key concepts used:
+ * - useState: manages form fields (phone, password) and feedback messages
+ * - useNavigate: changes pages in code (e.g., go to /dashboard on success)
+ * - useLocation: reads data passed from another page (e.g., success message from SignUp)
+ * - isValidPhone / loginUser: validate input and check credentials via localStorage
  */
 const SignIn = () => {
     const navigate = useNavigate();
     const location = useLocation();
 
-    // Form state: phone number, password, and remember preference
+    // Form state: phone number, password,remember preference and message
     const [phone, setPhone] = useState('');
     const [password, setPassword] = useState('');
     const [rememberPassword, setRememberPassword] = useState(false);
-    const [errorMsg, setErrorMsg] = useState(''); // To display validation/auth errors
-
-    // Initialize successMsg from navigation state if redirected from Signup
+    const [errorMsg, setErrorMsg] = useState('');
     const [successMsg, setSuccessMsg] = useState(location.state?.successMsg || '');
 
     // Handles the login button press
     const handleLogin = (phone, password) => {
-        setErrorMsg(''); // Clear previous errors
+        setErrorMsg(''); 
 
         if (!isValidPhone(phone)) {
             setErrorMsg('Please enter a valid phone number.');
             return;
         }
 
-        if (!isValidSixDigitCode(password)) {
+        if (password.length !== 6) {
             setErrorMsg('Password must be exactly 6 digits.');
             return;
         }
@@ -50,7 +48,6 @@ const SignIn = () => {
         // Simulate local authentication
         const result = loginUser(phone, password);
         if (result.success) {
-            // Show successful login msg, then redirect after small delay
             setSuccessMsg(result.message);
             setTimeout(() => {
                 navigate('/dashboard');
@@ -90,7 +87,6 @@ const SignIn = () => {
                         value={phone}
                         onChange={(e) => {
                             setPhone(e.target.value);
-                            console.log(e.target.value);
                         }}
                         maxLength={11}
                     />
@@ -104,7 +100,6 @@ const SignIn = () => {
                         value={password}
                         onChange={(e) => {
                             setPassword(e.target.value);
-                            console.log(e.target.value);
                             if (errorMsg) setErrorMsg(''); // Clear error on typing
                             if (successMsg) setSuccessMsg('');
                         }}
@@ -137,7 +132,7 @@ const SignIn = () => {
                         />
                         <span className="text-sm text-opay-subtext">Remember Password</span>
                     </label>
-                    {/* Forgot Password link - styled in brand green */}
+                    {/* Forgot Password link*/}
                     <button
                         onClick={() => navigate('/forgot-password')}
                         className="text-sm font-semibold text-opay-main"
@@ -146,14 +141,14 @@ const SignIn = () => {
                     </button>
                 </div>
 
-                {/* Primary Login Button - filled green */}
+                {/* Primary Login Button */}
                 <div className="w-full mb-4">
                     <Button text="Login" onClick={() => {
                         handleLogin(phone, password);
                     }} variant="primary" />
                 </div>
 
-                {/* Create Account Button - outlined green, navigates to SignUp page */}
+                {/* Create Account Button */}
                 <div className="w-full mb-8">
                     <Button
                         text="Create a new account"
@@ -168,7 +163,7 @@ const SignIn = () => {
                     className="flex flex-col items-center gap-3 active:opacity-70 transition-opacity"
                 >
                     <span className="text-sm text-opay-subtext">Login with fingerprint</span>
-                    {/* Fingerprint icon inside a circular green border */}
+                    {/* Fingerprint icon */}
                     <div className="w-14 h-14 rounded-full border-2 border-opay-main flex items-center justify-center">
                         <Fingerprint size={28} className="text-opay-main" />
                     </div>

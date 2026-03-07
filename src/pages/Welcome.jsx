@@ -3,26 +3,39 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import opayLogo from '../assets/logo.png'
 
+/**
+ * Welcome - The app's splash/intro screen shown on first load.
+ *
+ * What it does:
+ * - Displays the OPay logo and brand tagline for 2.5 seconds
+ * - Fades out smoothly, then redirects the user to the Sign In page
+ *
+ * Key concepts used:
+ * - useEffect: runs side-effects (timers) after the component renders
+ * - useState: tracks whether the fade-out animation should start
+ * - useNavigate: programmatically changes the current page/route
+ */
 const Welcome = () => {
     const navigate = useNavigate();
     const [isExiting, setIsExiting] = React.useState(false);
 
     useEffect(() => {
-        // Start exit animation after 2.5 seconds
+        // After 2.5s, trigger the fade-out animation
         const exitTimer = setTimeout(() => {
             setIsExiting(true);
         }, 2500);
 
-        // Navigate to signin after 3 seconds
+        // After 3s, navigate to the Sign In page
         const navTimer = setTimeout(() => {
             navigate('/signin');
         }, 3000);
 
+        // Cleanup: cancel both timers if the component is removed early
         return () => {
             clearTimeout(exitTimer);
             clearTimeout(navTimer);
         };
-    }, [navigate]);
+    });
 
     return (
         <div className={`bg-opay-main min-h-screen flex flex-col justify-center items-center gap-y-4 transition-opacity duration-500 ${isExiting ? 'opacity-0' : 'opacity-100'}`}>

@@ -1,15 +1,16 @@
 import React from 'react';
 
 /**
- * Icon – Central SVG icon library for the OPay app.
+ * Icon — a single component that holds every SVG icon used across the app.
+ * Pass the icon's name and Tailwind size/colour classes to render it anywhere.
  *
  * Usage:
  *   <Icon name="Home" className="w-6 h-6 text-opay-main" />
  *
- * All paths use currentColor, so Tailwind `text-*` utilities control the fill/stroke.
+ * All icon paths use `currentColor`, so Tailwind `text-*` classes control the colour.
  *
- * @param {string}  name      - Icon identifier (see switch cases below)
- * @param {string}  className - Tailwind classes for size & colour (default: "w-6 h-6")
+ * @param {string} name      - Name of the icon to render (see switch cases below)
+ * @param {string} className - Tailwind classes for size and colour (default: "w-6 h-6")
  */
 const Icon = ({ name, className = 'w-6 h-6' }) => {
     const props = {
@@ -113,14 +114,14 @@ const Icon = ({ name, className = 'w-6 h-6' }) => {
 
         case 'Eye':
             return (
-               <svg {...props} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                <svg {...props} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                 </svg>
             );
 
         case 'ClosedEye':
-            return(
+            return (
                 <svg {...props} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88" />
                 </svg>
@@ -297,6 +298,129 @@ const Icon = ({ name, className = 'w-6 h-6' }) => {
                     <rect x="2" y="7" width="20" height="10" rx="1" stroke="currentColor" strokeWidth="1.8" />
                     <path d="M2 10h20M7 7v10" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
                     <path d="M11 12h5M11 14h3" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+                </svg>
+            );
+
+        /* ─────────────── Me Page ─────────────── */
+
+        case 'Settings':
+            return (
+                <svg {...props}>
+                    <path d="M12 15a3 3 0 100-6 3 3 0 000 6z" stroke="currentColor" strokeWidth="1.8" />
+                    <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"
+                        stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+            );
+
+        case 'HexSettings':
+            // Hexagonal settings icon (like the OPay top right icon)
+            return (
+                <svg {...props} viewBox="0 0 24 24" fill="none">
+                    <path d="M12 2L4.5 6v6c0 5.25 3.21 10.15 7.5 11.5C16.29 22.15 19.5 17.25 19.5 12V6L12 2z"
+                        stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
+                    <circle cx="12" cy="12" r="2.5" stroke="currentColor" strokeWidth="1.8" />
+                    <path d="M12 9.5V7M12 17v-2.5M9 12H7M17 12h-2M9.93 9.93L8.5 8.5M15.5 15.5l-1.43-1.43M9.93 14.07L8.5 15.5M15.5 8.5l-1.43 1.43"
+                        stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                </svg>
+            );
+
+        case 'TransactionHistory':
+            return (
+                <svg {...props}>
+                    <rect x="5" y="2" width="14" height="20" rx="2" stroke="currentColor" strokeWidth="1.8" />
+                    <path d="M9 7h6M9 11h6M9 15h4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+                    <path d="M8 2v3M16 2v3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                </svg>
+            );
+
+        case 'AccountLimits':
+            return (
+                <svg {...props}>
+                    <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="1.8" />
+                    <path d="M12 6v6l-3 2" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M7 3.5A9.97 9.97 0 012 12" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+                </svg>
+            );
+
+        case 'BankCard':
+            return (
+                <svg {...props}>
+                    <rect x="2" y="5" width="20" height="14" rx="2" stroke="currentColor" strokeWidth="1.8" />
+                    <path d="M2 10h20" stroke="currentColor" strokeWidth="1.8" />
+                    <path d="M6 15h4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+                    <path d="M16 15h2" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+                </svg>
+            );
+
+        case 'PayMe':
+            return (
+                <svg {...props}>
+                    <rect x="3" y="3" width="18" height="18" rx="3" stroke="currentColor" strokeWidth="1.8" />
+                    <path d="M8 12h8M12 8v8" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+                    <circle cx="3.5" cy="3.5" r="0" />
+                </svg>
+            );
+
+        case 'ShareOPay':
+            return (
+                <svg {...props}>
+                    <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+                    <circle cx="9" cy="7" r="4" stroke="currentColor" strokeWidth="1.8" />
+                    <path d="M23 21v-2a4 4 0 00-3-3.87" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+                    <path d="M16 3.13a4 4 0 010 7.75" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+                </svg>
+            );
+
+        case 'SecurityCenter':
+            return (
+                <svg {...props}>
+                    <path d="M12 2l7 4v5c0 4.42-2.99 8.57-7 9.93C7.99 19.57 5 15.42 5 11V6l7-4z"
+                        stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
+                    <path d="M9 12l2 2 4-4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+            );
+
+        case 'CustomerService':
+            return (
+                <svg {...props}>
+                    <path d="M3 18v-6a9 9 0 0118 0v6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+                    <path d="M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3zM3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3z"
+                        stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
+                </svg>
+            );
+
+        case 'OPayUSSD':
+            return (
+                <svg {...props}>
+                    <rect x="5" y="2" width="14" height="20" rx="2" stroke="currentColor" strokeWidth="1.8" />
+                    <circle cx="12" cy="17" r="1" fill="currentColor" />
+                    <path d="M9 7l1.5 2L9 11M12 7v4M15 7l-1.5 2 1.5 2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+            );
+
+        case 'RateUs':
+            return (
+                <svg {...props}>
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+                        stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+            );
+
+        /* Filled shield with a checkmark — used in security banners */
+        case 'SecurityBanner':
+            return (
+                <svg {...props} viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z" />
+                    <path d="M9 12l2 2 4-4" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                </svg>
+            );
+
+        case 'Logout':
+            return (
+                <svg {...props}>
+                    <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                    <polyline points="16 17 21 12 16 7" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                    <line x1="21" y1="12" x2="9" y2="12" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
                 </svg>
             );
 

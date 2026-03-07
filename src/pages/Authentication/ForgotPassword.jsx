@@ -5,15 +5,12 @@ import Button from '../../components/Button';
 import profileImg from '../../assets/profile.png';
 
 /**
- * ForgotPassword - Face Verification page
- * 
- * Layout:
- * - Header with back arrow and "Help" link
- * - "Face Verification" title
- * - Instructive subtitle with green highlights
- * - Large circular frame with selfie illustration/photo
- * - Shield icon overlay
- * - Verify button
+ * ForgotPassword - Face Verification page for account recovery.
+ *
+ * Shown when a user taps "Forgot Password?" on the Sign In page.
+ * Displays a face frame and a "Verify" button to confirm the user's identity.
+ * In this mock version, tapping "Verify" goes to the Coming Soon page since
+ * real face recognition is not yet ready.
  */
 const ForgotPassword = () => {
     const navigate = useNavigate();
@@ -40,10 +37,6 @@ const ForgotPassword = () => {
                 <div className="relative mb-auto flex justify-center">
                     {/* Green circle frame */}
                     <div className="w-56 h-56 rounded-full border-4 border-opay-main overflow-hidden flex items-center justify-center bg-gray-50">
-                        {/* 
-                            Using existing profile.png as a placeholder. 
-                            In a real app, this would be the live camera feed.
-                        */}
                         <img
                             src={profileImg}
                             alt="Face Verification"

@@ -6,9 +6,10 @@ import Welcome from './pages/Welcome';
 import SignIn from './pages/Authentication/SignIn';
 import SignUp from './pages/Authentication/SignUp';
 import BiometricSetup from './pages/Authentication/BiometricSetup';
-import ForgotPassword from './pages/Authentication/ForgotPassword';
 import ComingSoon from './pages/ComingSoon';
+import ForgotPassword from './pages/Authentication/ForgotPassword';
 import Dashboard from './pages/Dashboard/Dashboard';
+import Me from './pages/Dashboard/Me';
 
 /**
  * App - Root component that sets up client-side routing
@@ -30,6 +31,7 @@ const App = () => {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/coming-soon" element={<ComingSoon />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/me" element={<Me />} />
       </Routes>
     </Router>
   )

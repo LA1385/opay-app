@@ -1,13 +1,19 @@
 import React from 'react';
 import Icon from './Icon';
+import { useNavigate } from 'react-router-dom';
 
 /**
- * BottomNav - Sticky bottom navigation bar with five tabs.
+ * BottomNav — the fixed navigation bar that sits at the bottom of every screen.
+ * Highlights the currently active tab and navigates when a tab is tapped.
  *
- * @param {string}   active   - Currently active tab key (default: "home")
- * @param {function} onTabChange - Callback with tab key when a tab is pressed
+ * @param {string}   active      - Key of the currently selected tab (e.g. "home", "me")
+ * @param {function} onTabChange - Called with the tab key whenever the user switches tabs
  */
 const BottomNav = ({ active = 'home', onTabChange }) => {
+
+    const navigate = useNavigate();
+
+    /* The five tabs shown in the navigation bar */
     const tabs = [
         { key: 'home', icon: 'Home', label: 'Home' },
         { key: 'rewards', icon: 'Rewards', label: 'Rewards' },
@@ -15,6 +21,22 @@ const BottomNav = ({ active = 'home', onTabChange }) => {
         { key: 'cards', icon: 'Cards', label: 'Cards' },
         { key: 'me', icon: 'Me', label: 'Me' },
     ];
+
+    /* Navigates to the correct screen when a tab is pressed.
+       Unfinished tabs redirect to the "coming soon" screen. */
+    const handleTabPress = (tabKey) => {
+        if (tabKey === 'home') {
+            navigate('/dashboard');
+        } else if (tabKey === 'me') {
+            navigate('/me');
+        } else {
+            navigate('/coming-soon');
+        }
+
+        if (onTabChange) {
+            onTabChange(tabKey);
+        }
+    };
 
     return (
         <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-100 shadow-lg">
@@ -24,10 +46,10 @@ const BottomNav = ({ active = 'home', onTabChange }) => {
                     return (
                         <button
                             key={key}
-                            onClick={() => onTabChange && onTabChange(key)}
+                            onClick={() => handleTabPress(key)}
                             className="flex flex-col items-center justify-center flex-1 h-full gap-0.5 focus:outline-none"
                         >
-                            {/* Active indicator dot above icon */}
+                            {/* Coloured underline that appears above the icon when the tab is active */}
                             <span
                                 className={`block h-0.5 w-6 rounded-full mb-0.5 transition-all duration-200 ${isActive ? 'bg-opay-main' : 'bg-transparent'
                                     }`}

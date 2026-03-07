@@ -1,20 +1,19 @@
 import React from 'react';
 
 /**
- * Button - Reusable button component with two style variants:
- * 
- * 1. "primary" - Filled green background (bg-opay-main) with white text and shadow
- *    Used for main actions like "Login" and "Confirm"
- * 
- * 2. "outline" - Transparent background with green border and green text
- *    Used for secondary actions like "Create a new account"
- * 
- * Both variants are full-width pill-shaped buttons with hover transitions
- * 
- * @param {string} text - The button label text
- * @param {function} onClick - Click event handler
- * @param {string} variant - "primary" (default) or "outline"
- * @param {string} type - HTML button type attribute (default: "button")
+ * Button - A reusable button component used throughout the app.
+ *
+ * Supports two visual styles controlled by the `variant` prop:
+ * - "primary": Solid green background with white text — for main actions (e.g., Login, Confirm)
+ * - "outline": Transparent with a green border — for secondary actions (e.g., Create Account)
+ *
+ * Both variants are full-width, pill-shaped, and smoothly animate on hover.
+ *
+ * Props:
+ * @param {string}   text    - The label shown on the button
+ * @param {function} onClick - Function called when the button is clicked
+ * @param {string}   variant - "primary" (default) or "outline"
+ * @param {string}   type    - HTML type attribute: "button" (default), "submit", or "reset"
  */
 const Button = ({ text, onClick, variant = 'primary', type = 'button' }) => {
 

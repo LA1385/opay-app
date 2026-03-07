@@ -1,21 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
 import Icon from '../../components/Icon';
 import BottomNav from '../../components/BottomNav';
-import { getCurrentUser } from '../../utils/webAuth';
 
-/* ─────────────────────────────────────────
-   Helper: Section wrapper with white card
-───────────────────────────────────────── */
+
+/* White card wrapper used to group sections on the dashboard */
 const Card = ({ children, className = '' }) => (
     <div className={`bg-white rounded-2xl shadow-sm ${className}`}>{children}</div>
 );
 
 /**
- * Header — displays the user avatar, personalised greeting, and top-bar icons.
- * Reads the logged-in user's name from localStorage via getCurrentUser().
+ * Header — shows the user's avatar, greeting, and action buttons (Help, QR Scan, Notifications).
  */
-const Header = ({ user }) => {
+const Header = () => {
 
     return (
         <header className="flex items-center justify-between px-4 pt-5 pb-3">
@@ -30,7 +26,6 @@ const Header = ({ user }) => {
                 </div>
             </div>
 
-            {/* Top-right action icons */}
             <div className="flex items-center gap-3">
                 {/* Help badge */}
                 <button className="relative flex items-center justify-center w-9 h-9 rounded-full bg-opay-iconbg">
@@ -52,9 +47,10 @@ const Header = ({ user }) => {
     );
 };
 
-/* ─────────────────────────────────────────
-   2. Balance Card
-───────────────────────────────────────── */
+/**
+ * BalanceCard — displays the user's wallet balance with a toggle to show or hide it.
+ * Also includes a link to Transaction History and an "Add Money" button.
+ */
 const BalanceCard = () => {
     const [hidden, setHidden] = useState(true);
     const hiddenIcon = <Icon name="ClosedEye" className="w-3.5 h-3.5 text-white opacity-70" />
@@ -98,9 +94,7 @@ const BalanceCard = () => {
     );
 };
 
-/* ─────────────────────────────────────────
-   3. Quick Actions
-───────────────────────────────────────── */
+/* List of quick money transfer actions shown below the balance card */
 const quickActions = [
     { icon: 'SendToPerson', label: 'To OPay' },
     { icon: 'Bank', label: 'To Bank' },
@@ -122,9 +116,9 @@ const QuickActions = () => (
     </Card>
 );
 
-/* ─────────────────────────────────────────
-   4. Email Promo Banner
-───────────────────────────────────────── */
+/**
+ * PromoBanner — a promotional card prompting the user to add their email address.
+ */
 const PromoBanner = () => (
     <Card className="mx-4 px-4 py-4 flex items-center gap-4">
         {/* Envelope illustration */}
@@ -142,36 +136,30 @@ const PromoBanner = () => (
     </Card>
 );
 
-/* ─────────────────────────────────────────
-   5. Services Grid
-───────────────────────────────────────── */
+/* All available services displayed in the services grid */
 const services = [
-    { icon: 'Airtime', label: 'Airtime', badge: null, badgeColor: 'bg-opay-promotagbg' },
-    { icon: 'Data', label: 'Data', badge: null, badgeColor: 'bg-opay-promotagbg' },
-    { icon: 'Betting', label: 'Betting', badge: null },
-    { icon: 'TV', label: 'TV', badge: null },
-    { icon: 'OWealth', label: 'OWealth', badge: null },
-    { icon: 'Loan', label: 'Loan', badge: null },
-    { icon: 'Invitation', label: 'Invitation', badge: '₦5600', badgeColor: 'bg-opay-main' },
-    { icon: 'More', label: 'More', badge: null },
+    { icon: 'Airtime', label: 'Airtime' },
+    { icon: 'Data', label: 'Data' },
+    { icon: 'Betting', label: 'Betting' },
+    { icon: 'TV', label: 'TV' },
+    { icon: 'OWealth', label: 'OWealth' },
+    { icon: 'Loan', label: 'Loan' },
+    { icon: 'Invitation', label: 'Invitation' },
+    { icon: 'More', label: 'More' },
 ];
 
+/**
+ * ServicesGrid — a 4-column grid of tappable service icons (Airtime, Data, TV, etc.).
+ */
 const ServicesGrid = () => (
     <Card className="mx-4 px-4 py-4">
         <div className="grid grid-cols-4 gap-y-5">
-            {services.map(({ icon, label, badge, badgeColor }) => (
+            {services.map(({ icon, label}) => (
                 <button key={label} className="flex flex-col items-center gap-2 group">
                     <div className="relative">
                         <div className="w-14 h-14 rounded-full bg-opay-iconbg flex items-center justify-center transition-transform group-hover:scale-105">
                             <Icon name={icon} className="w-7 h-7 text-opay-main" />
                         </div>
-                        {badge && (
-                            <span
-                                className={`absolute -top-2 left-1/2 -translate-x-1/2 ${badgeColor} text-white text-[8px] font-bold px-1.5 py-0.5 rounded-sm leading-none whitespace-nowrap`}
-                            >
-                                {badge}
-                            </span>
-                        )}
                     </div>
                     <span className="text-[11px] text-opay-icon font-medium text-center leading-tight">{label}</span>
                 </button>
@@ -180,9 +168,9 @@ const ServicesGrid = () => (
     </Card>
 );
 
-/* ─────────────────────────────────────────
-   6. Saving Challenge 2026
-───────────────────────────────────────── */
+/**
+ * SavingChallenge — a promotional card encouraging users to set a savings goal for 2026.
+ */
 const SavingChallenge = () => (
     <div className="mx-4 rounded-2xl bg-opay-savebg px-4 py-4 relative overflow-hidden">
         {/* Title row */}
@@ -212,9 +200,9 @@ const SavingChallenge = () => (
     </div>
 );
 
-/* ─────────────────────────────────────────
-   7. Super Voucher Teaser
-───────────────────────────────────────── */
+/**
+ * VoucherTeaser — a card that advertises exclusive voucher packages available to the user.
+ */
 const VoucherTeaser = () => (
     <Card className="mx-4 px-4 py-4 flex items-center gap-4">
         <div className="w-14 h-14 bg-opay-iconbg rounded-xl flex items-center justify-center flex-shrink-0">
@@ -228,30 +216,17 @@ const VoucherTeaser = () => (
     </Card>
 );
 
-/* ─────────────────────────────────────────
-   Dashboard – root page
-───────────────────────────────────────── */
+/**
+ * Dashboard — the main home screen of the app.
+ * Stacks all sections vertically inside a scrollable area, with a fixed bottom navigation bar.
+ */
 const Dashboard = () => {
     const [activeTab, setActiveTab] = useState('home');
-    const [currentUser, setCurrentUser] = useState(null);
-    const navigate = useNavigate();
-
-    // On mount: load the logged-in user from localStorage.
-    // If no session exists, send the user back to the login page.
-    useEffect(() => {
-        const user = getCurrentUser();
-        if (!user) {
-            navigate('/signin', { replace: true });
-        } else {
-            setCurrentUser(user);
-        }
-    }, [navigate]);
 
     return (
         <div className="min-h-screen bg-opay-app flex flex-col">
-            {/* Scrollable content above the fixed bottom nav */}
             <div className="flex-1 overflow-y-auto pb-20">
-                <Header user={currentUser} />
+                <Header />
 
                 <div className="flex flex-col gap-3 pb-4">
                     <BalanceCard />

@@ -5,14 +5,12 @@ import Button from '../../components/Button';
 import opayLogo from '../../assets/logo.png';
 
 /**
- * BiometricSetup - Page for fingerprint authentication
- * 
- * Layout:
- * - OPay logo
- * - User silhouette avatar
- * - Fingerprint icon in center
- * - "Verify Fingerprint" action button
- * - Navigation links to switch account/password
+ * BiometricSetup - Fingerprint login screen.
+ *
+ * Shown when the user chooses to log in with their fingerprint instead of a password.
+ * The actual fingerprint verification is not yet implemented — tapping "Verify Fingerprint"
+ * or the fingerprint icon takes the user to the Coming Soon page.
+ * Bottom links let the user switch accounts or go back to password login.
  */
 const BiometricSetup = () => {
     const navigate = useNavigate();

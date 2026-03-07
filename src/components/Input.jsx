@@ -1,8 +1,8 @@
 import React from 'react';
 
 /**
- * NigerianFlag - Renders a small Nigerian flag icon (green-white-green)
- * Used inside the phone input variant to indicate the country code
+ * NigerianFlag - A tiny Nigerian flag icon (green | white | green stripes).
+ * Used inside the phone number input to show which country's format is expected.
  */
 const NigerianFlag = () => (
     <div className="flex gap-0.5">
@@ -13,21 +13,22 @@ const NigerianFlag = () => (
 );
 
 /**
- * Input - Reusable input component with two variants:
- * 
- * 1. "phone" variant: Shows Nigerian flag + "+234" country code prefix with a divider
- *    Used on both SignIn and SignUp pages for phone number entry
- * 
- * 2. "default" variant: A plain text input with optional rightElement
- *    The rightElement prop allows placing a button/icon on the right side (e.g., "Get OTP")
- * 
- * @param {string} type - Input type (text, password, tel, etc.)
- * @param {string} placeholder - Placeholder text for the input
- * @param {string} value - Controlled input value
- * @param {function} onChange - Change handler for the input
- * @param {number} maxLength - Maximum character length allowed
- * @param {string} variant - "phone" or "default"
- * @param {JSX.Element} rightElement - Optional element rendered on the right side of the input
+ * Input - A reusable input component used across the app.
+ *
+ * Supports two variants controlled by the `variant` prop:
+ * - "phone"   : Prefixes the input with the Nigerian flag + "+234" code.
+ *               Used for phone number fields on Sign In and Sign Up.
+ * - "default" : A plain input field. Accepts an optional `rightElement`
+ *               prop to place a button or icon on the right (e.g., "Get OTP").
+ *
+ * Props:
+ * @param {string}      type         - Input type: "text", "password", "tel", etc. (default: "text")
+ * @param {string}      placeholder  - Grey hint text shown when the field is empty
+ * @param {string}      value        - The current value of the input (controlled)
+ * @param {function}    onChange     - Called every time the user types something
+ * @param {number}      maxLength    - Maximum number of characters allowed
+ * @param {string}      variant      - "phone" or "default" (default: "default")
+ * @param {JSX.Element} rightElement - Optional element (e.g., a button) that appears on the right
  */
 const Input = ({ type = 'text', placeholder, value, onChange, maxLength, variant = 'default', rightElement }) => {
 
@@ -41,7 +42,7 @@ const Input = ({ type = 'text', placeholder, value, onChange, maxLength, variant
                 <div className="w-px h-5 bg-gray-300 mx-3"></div>
                 <input
                     type="tel"
-                    placeholder={placeholder || 'Enter phone number'}
+                    placeholder={placeholder}
                     value={value}
                     onChange={onChange}
                     maxLength={maxLength || 11}

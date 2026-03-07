@@ -1,14 +1,21 @@
 /**
  * webAuth.js
- * Utility functions for simulating authentication using localStorage.
+ * Simulates a backend authentication system using the browser's localStorage.
+ * Since this app has no real server, user data is stored locally in the browser.
+ *
+ * Storage keys:
+ * - opay_mock_users        → array of all registered users
+ * - opay_mock_current_user → the user who is currently logged in
  */
 
 const USERS_KEY = 'opay_mock_users';
 const CURRENT_USER_KEY = 'opay_mock_current_user';
 
 /**
- * Retrieves all registered users from localStorage.
- * @returns {Array} List of user objects
+ * getUsers - Reads all registered users from localStorage.
+ * Returns an empty array if no users have been registered yet.
+ *
+ * @returns {Array} List of user objects stored in the browser
  */
 const getUsers = () => {
     const users = localStorage.getItem(USERS_KEY);
@@ -16,17 +23,18 @@ const getUsers = () => {
 };
 
 /**
- * Simulates user registration.
- * Saves a new user to localStorage if the phone number is not already registered.
- * 
- * @param {string} phone - User's phone number
- * @param {string} password - 6-digit password
- * @param {string} name - User's full name
- * @returns {Object} Success or error message
+ * registerUser - Creates a new user account and saves it to localStorage.
+ * Fails if the phone number is already registered.
+ *
+ * The password is encoded with btoa() (base64)
+ *
+ * @param {string} phone    - The user's Nigerian phone number
+ * @param {string} password - The 6-digit OTP entered during Sign Up
+ * @returns {{ success: boolean, message: string, user?: object }}
  */
-export const registerUser = (phone, password, name = 'User') => {
+export const registerUser = (phone, password) => {
     const users = getUsers();
-    const existingUser = users.find(u => u.phone === phone);
+    const existingUser = users.find(user => user.phone === phone);
 
     if (existingUser) {
         return { success: false, message: 'Phone number is already registered.' };
@@ -35,38 +43,36 @@ export const registerUser = (phone, password, name = 'User') => {
     const newUser = {
         id: Date.now().toString(),
         phone,
-        password, // In a real app, this would be hashed
-        balance: 1200, // Welcome bonus!
-        name: name.trim() || 'User'
+        password: btoa(password), 
+        balance: 1200,
     };
 
     users.push(newUser);
     localStorage.setItem(USERS_KEY, JSON.stringify(users));
 
-    // Automatically log them in after registration
-    localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(newUser));
-
     return { success: true, message: 'Registration successful', user: newUser };
 };
 
 /**
- * Simulates user login.
- * Checks localStorage for matching phone and password.
- * 
- * @param {string} phone - User's phone number 
- * @param {string} password - 6-digit password
- * @returns {Object} Success or error message
+ * loginUser - Checks the provided credentials against localStorage.
+ * Also supports a hardcoded test account (08012345678 / 123456) for quick testing.
+ *
+ * Uses atob() to decode the stored base64 password before comparing.
+ *
+ * @param {string} phone    - The user's phone number
+ * @param {string} password - The 6-digit password to verify
+ * @returns {{ success: boolean, message: string, user?: object }}
  */
 export const loginUser = (phone, password) => {
     const users = getUsers();
 
-    // For testing purposes, auto-create a mock bypass user, regardless of whether other users exist
+    // Hardcoded bypass account for testing — skips the registration step
     if (phone === '08012345678' && password === '123456') {
         const testUser = {
             id: 'test-user-id',
             phone: '08012345678',
             password: '123456',
-            balance: 50000,
+            balance: 1200,
             name: 'Test User'
         };
         // Save current session
@@ -74,32 +80,35 @@ export const loginUser = (phone, password) => {
         return { success: true, message: 'Mock user logged in successfully', user: testUser };
     }
 
-    const user = users.find(u => u.phone === phone);
+    const user = users.find(user => user.phone === phone);
 
     if (!user) {
         return { success: false, message: 'Account not found. Please register.' };
     }
 
-    if (user.password !== password) {
+    if (atob(user.password) !== password) {
         return { success: false, message: 'Incorrect password.' };
     }
 
-    // Save current session
+    // Save the logged-in user to localStorage so other pages can access it
     localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(user));
 
     return { success: true, message: 'Login successful', user };
 };
 
 /**
- * Logs out the current user by clearing the session from localStorage.
+ * logoutUser - Ends the current user's session by removing them from localStorage.
+ * After this, getCurrentUser() will return null.
  */
 export const logoutUser = () => {
     localStorage.removeItem(CURRENT_USER_KEY);
 };
 
 /**
- * Retrieves the currently logged-in user.
- * @returns {Object|null} The current user object or null if not logged in.
+ * getCurrentUser - Returns the user who is currently logged in.
+ * Returns null if no one is logged in (e.g., after logout or on first visit).
+ *
+ * @returns {object|null} The current user object, or null if not logged in
  */
 export const getCurrentUser = () => {
     const user = localStorage.getItem(CURRENT_USER_KEY);
