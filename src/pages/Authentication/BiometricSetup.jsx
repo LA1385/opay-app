@@ -45,7 +45,7 @@ const BiometricSetup = () => {
             <div className="w-full mb-auto">
                 <Button
                     text="Verify Fingerprint"
-                    onClick={() => navigate('/coming-soon')}
+                    onClick={() => navigate('/redirect')}
                     variant="primary"
                 />
             </div>
