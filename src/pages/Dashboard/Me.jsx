@@ -60,12 +60,6 @@ const Me = () => {
     const [balanceHidden, setBalanceHidden] = useState(true);
     const [activeTab, setActiveTab] = useState('me'); 
 
-    /*navigates to /me, /home, /cards, /redirect etc*/
-    const handleTabChange = (tab) => {  
-        setActiveTab(tab);
-        navigate(`/${tab}`); 
-    };
-
     /* Navigates to the "coming soon" screen for unimplemented features */
     const handleComingSoon = () => navigate('/redirectme');
 
@@ -222,7 +216,7 @@ const Me = () => {
             </div>
 
             {/* ── Fixed Bottom Nav ── */}
-            <BottomNav active={activeTab} onTabChange={handleTabChange} />
+            <BottomNav active={activeTab} onTabChange={setActiveTab} />
         </div>
     );
 };
