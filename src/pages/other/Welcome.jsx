@@ -1,7 +1,7 @@
 import React from 'react';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import opayLogo from '../assets/logo.png'
+import opayLogo from '../../assets/logo.png';
 
 /**
  * Welcome - The app's splash/intro screen shown on first load.

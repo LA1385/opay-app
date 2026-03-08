@@ -30,7 +30,7 @@ const BottomNav = ({ active = 'home', onTabChange }) => {
         } else if (tabKey === 'me') {
             navigate('/me');
         } else {
-            navigate('/coming-soon');
+            navigate('/redirect');
         }
 
         if (onTabChange) {

@@ -58,9 +58,16 @@ const Divider = () => (
 const Me = () => {
     const navigate = useNavigate();
     const [balanceHidden, setBalanceHidden] = useState(true);
+    const [activeTab, setActiveTab] = useState('me'); 
+
+    /*navigates to /me, /home, /cards, /redirect etc*/
+    const handleTabChange = (tab) => {  
+        setActiveTab(tab);
+        navigate(`/${tab}`); 
+    };
 
     /* Navigates to the "coming soon" screen for unimplemented features */
-    const handleComingSoon = () => navigate('/coming-soon');
+    const handleComingSoon = () => navigate('/redirectme');
 
     /* Clears the user session and redirects to the sign-in page */
     const handleLogout = () => {
@@ -215,7 +222,7 @@ const Me = () => {
             </div>
 
             {/* ── Fixed Bottom Nav ── */}
-            <BottomNav active="me" onTabChange={() => { }} />
+            <BottomNav active={activeTab} onTabChange={handleTabChange} />
         </div>
     );
 };

@@ -1,9 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Rocket } from 'lucide-react';
-import Button from '../components/Button';
-import opayLogo from '../assets/logo.png';
-import { getCurrentUser } from '../utils/webAuth.js';
+import Button from '../../../components/Button.jsx';
+import opayLogo from '../../../assets/logo.png';
 
 /**
  * ComingSoon - Placeholder page shown when a feature is not yet available.
@@ -17,20 +16,8 @@ import { getCurrentUser } from '../utils/webAuth.js';
  * - getCurrentUser: checks localStorage for an active session
  * - useNavigate: lets us send the user to a different page in code
  */
-const ComingSoon = () => {
+const RedirectMe = () => {
     const navigate = useNavigate();
-
-    const user = getCurrentUser();
-
-    // Decide where to send the user based on their login status
-    const handleNavigation = () => {
-        if (user) {
-            navigate('/dashboard')
-        }
-        else {
-            navigate('/signin')
-        };
-    };
 
 
     return (
@@ -58,8 +45,8 @@ const ComingSoon = () => {
                 {/* Return Button */}
                 <div className="w-full max-w-xs">
                     <Button
-                        text={user ? 'Back to dashboard' : 'Back to login'}
-                        onClick={handleNavigation}
+                        text='Back to Me tab'
+                        onClick={() => navigate('/me')}
                         variant="primary"
                     />
                 </div>
@@ -73,4 +60,4 @@ const ComingSoon = () => {
     );
 };
 
-export default ComingSoon;
+export default RedirectMe;
